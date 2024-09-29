@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,174 +7,151 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #fff;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
         }
-        .profile-banner {
+
+        /* Banner */
+        .banner {
             width: 100%;
             height: 150px;
-            background-color: #ccc;
+            background-color: #4A90E2;
             position: relative;
+            overflow: hidden;
         }
-        .profile-picture {
-            position: absolute;
-            top: 100px;
-            left: 20px;
+
+        /* Foto de Perfil */
+        .profile-pic {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-        }
-        .profile-info {
-            margin-top: 60px;
-            padding: 20px;
-        }
-        .three-dots {
-            float: right;
-            cursor: pointer;
-        }
-        .edit-profile-modal,
-        .edit-bio-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .theme-icon {
+            border: 3px solid #fff;
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 100px; /* Ajustado para sobrepor o banner */
+            left: 20px;
+            background-color: #fff;
+        }
+
+        /* Informações do usuário */
+        .user-info {
+            margin-top: 40px;
+            padding-left: 140px;
+            padding-right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .user-info p {
+            margin: 5px 0;
+            color: gray;
+        }
+
+        /* Menu de três pontinhos */
+        .edit-menu {
             cursor: pointer;
         }
-        button {
-            margin-top: 10px;
+
+        .edit-options {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
+
+        .edit-options a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .edit-options a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Botão de upload */
+        .hidden-input {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
-    <!-- Banner do Perfil -->
-    <div class="profile-banner" id="bannerContainer">
-        <img src="" alt="Banner" id="bannerImage" style="width: 100%; height: 100%; object-fit: cover;">
-        <input type="file" accept="image/*" id="bannerInput" style="display:none;" onchange="loadBannerImage(event)">
-        <button onclick="document.getElementById('bannerInput').click()">Trocar Banner</button>
+
+    <!-- Banner -->
+    <div class="banner">
+        <!-- Ícone de tema (Sol/Lua) -->
+        <span id="themeToggle" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">☀️</span>
+        <img src="path/to/banner.jpg" id="bannerImage" alt="Banner do Perfil" class="banner-image">
+        <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
     </div>
 
-    <!-- Foto de Perfil -->
-    <img src="" alt="Foto de Perfil" class="profile-picture" id="profilePicture">
-    <input type="file" accept="image/*" id="profileImageInput" style="display:none;" onchange="loadProfileImage(event)">
-    <button onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</button>
+    <!-- Foto de Perfil sobreposta ao banner -->
+    <img src="path/to/profile.jpg" id="profileImage" alt="Foto de Perfil" class="profile-pic">
+    <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)">
 
-    <!-- Informações do Perfil -->
-    <div class="profile-info">
-        <h2 id="nickname">Apelido do Usuário</h2>
-        <p id="username">@usuario</p>
-        <span class="three-dots" onclick="editProfile()">...</span>
+    <!-- Informações do usuário e menu de três pontinhos -->
+    <div class="user-info">
+        <div>
+            <h2 id="nickname">Apelido do Usuário</h2>
+            <p id="username">@usuario</p>
+        </div>
+        <!-- Menu de três pontinhos -->
+        <div class="edit-menu" onclick="toggleEditOptions()">⋮</div>
     </div>
 
-    <!-- Modal de Edição de Perfil -->
-    <div id="editProfileModal" class="edit-profile-modal">
-        <label for="newNickname">Novo Apelido:</label>
-        <input type="text" id="newNickname">
-        <label for="newUsername">Novo Nome de Usuário (@):</label>
-        <input type="text" id="newUsername">
-        <button onclick="saveProfile()">Salvar</button>
-        <button onclick="closeEditProfile()">Cancelar</button>
+    <div class="edit-options" id="editOptions">
+        <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
+        <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
+        <a href="#">Editar Bio</a>
+        <a href="#">Editar Apelido</a>
     </div>
 
     <script>
-        // Carregar a imagem de perfil do input
+        // Função para alternar opções de edição
+        function toggleEditOptions() {
+            const editOptions = document.getElementById('editOptions');
+            if (editOptions.style.display === 'block') {
+                editOptions.style.display = 'none';
+            } else {
+                editOptions.style.display = 'block';
+            }
+        }
+
+        // Carregar nova foto de perfil
         function loadProfileImage(event) {
-            const image = document.getElementById('profilePicture');
-            const file = event.target.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function() {
-                image.src = reader.result;
-                localStorage.setItem('profileImage', reader.result); // Salvar no localStorage
-            };
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+            const profileImage = document.getElementById('profileImage');
+            profileImage.src = URL.createObjectURL(event.target.files[0]);
         }
 
-        // Carregar a imagem do banner
+        // Carregar novo banner
         function loadBannerImage(event) {
-            const image = document.getElementById('bannerImage');
-            const file = event.target.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function() {
-                image.src = reader.result;
-                localStorage.setItem('bannerImage', reader.result); // Salvar no localStorage
-            };
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+            const bannerImage = document.getElementById('bannerImage');
+            bannerImage.src = URL.createObjectURL(event.target.files[0]);
         }
 
-        // Salvar o perfil (apelido e usuário)
-        function saveProfile() {
-            const newNickname = document.getElementById('newNickname').value;
-            const newUsername = document.getElementById('newUsername').value;
+        // Alternar tema entre claro e escuro
+        const themeToggle = document.getElementById('themeToggle');
+        let isDarkMode = false;
 
-            if (newNickname) {
-                document.getElementById('nickname').textContent = newNickname;
-                localStorage.setItem('nickname', newNickname);
-            }
-
-            if (newUsername) {
-                document.getElementById('username').textContent = '@' + newUsername;
-                localStorage.setItem('username', newUsername);
-            }
-
-            document.getElementById('editProfileModal').style.display = 'none';
-        }
-
-        // Carregar dados do perfil ao carregar a página
-        function loadUserData() {
-            const savedProfileImage = localStorage.getItem('profileImage');
-            const savedBannerImage = localStorage.getItem('bannerImage');
-            const savedNickname = localStorage.getItem('nickname');
-            const savedUsername = localStorage.getItem('username');
-
-            if (savedProfileImage) {
-                document.getElementById('profilePicture').src = savedProfileImage;
-            }
-
-            if (savedBannerImage) {
-                document.getElementById('bannerImage').src = savedBannerImage;
-            }
-
-            if (savedNickname) {
-                document.getElementById('nickname').textContent = savedNickname;
-            }
-
-            if (savedUsername) {
-                document.getElementById('username').textContent = '@' + savedUsername;
-            }
-        }
-
-        // Abrir a janela de edição do perfil
-        function editProfile() {
-            document.getElementById('editProfileModal').style.display = 'block';
-        }
-
-        // Fechar a janela de edição do perfil
-        function closeEditProfile() {
-            document.getElementById('editProfileModal').style.display = 'none';
-        }
-
-        // Carregar dados ao iniciar a página
-        window.onload = loadUserData;
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.style.backgroundColor = isDarkMode ? '#333' : '#fff';
+            document.body.style.color = isDarkMode ? '#fff' : '#000';
+            themeToggle.textContent = isDarkMode ? '🌙' : '☀️';
+        });
     </script>
+
 </body>
 </html>
