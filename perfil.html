@@ -1,1 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
 
+        /* Banner */
+        .banner {
+            width: 100%;
+            height: 150px;
+            background-color: #4A90E2;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Foto de Perfil */
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            position: absolute;
+            top: 100px; /* Ajustado para sobrepor o banner */
+            left: 20px;
+            background-color: #fff;
+        }
+
+        /* Informações do usuário */
+        .user-info {
+            margin-top: 40px;
+            padding-left: 140px;
+            padding-right: 50px;
+            display: flex;
+            flex-direction: column; /* Muda para coluna */
+            align-items: flex-start; /* Alinha à esquerda */
+        }
+
+        .user-info h2 {
+            margin: 5px 0; /* Adiciona margem para o apelido */
+            font-size: 22px;
+        }
+
+        .user-info p {
+            margin: 5px 0;
+            color: gray;
+        }
+
+        /* Menu de edição e compartilhamento */
+        .edit-menu {
+            cursor: pointer;
+            align-self: flex-start; /* Alinha à esquerda */
+            margin-top: 10px; /* Adiciona margem ao topo */
+        }
+
+        .edit-options {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            width: 200px; /* Largura do menu de opções */
+        }
+
+        .edit-options a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .edit-options a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Botão de upload */
+        .hidden-input {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Banner -->
+    <div class="banner">
+        <span id="themeToggle" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">☀️</span>
+        <img src="" id="bannerImage" alt="Banner do Perfil" class="banner-image">
+        <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
+    </div>
+
+    <!-- Foto de Perfil sobreposta ao banner -->
+    <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic">
+    <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)">
+
+    <!-- Informações do usuário e menu de edição e compartilhamento -->
+    <div class="user-info">
+        <h2 id="nickname">Apelido do Usuário</h2> <!-- Apelido acima -->
+        <p id="username">@usuario</p> <!-- Arroba abaixo do apelido -->
+        <p id="bio">Esta é a bio do usuário.</p> <!-- Bio padrão -->
+        <div class="edit-menu" onclick="toggleEditOptions()">📤 Compartilhar Link</div>
+        <div class="edit-menu" onclick="toggleEditOptionsProfile()">🖉 Editar Perfil</div>
+    </div>
+
+    <div class="edit-options" id="editOptions">
+        <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
+        <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
+        <a href="#" onclick="openEditBioModal()">Editar Bio</a>
+    </div>
+
+    <div class="edit-options" id="editOptionsProfile">
+        <a href="#" onclick="openEditNicknameModal()">Editar Apelido</a>
+        <a href="#" onclick="openEditUsernameModal()">Editar Nome de Usuário</a>
+    </div>
+
+    <!-- Modal de Edição de Bio -->
+    <div id="editBioModal" style="display:none;">
+        <h3>Editar Bio</h3>
+        <input type="text" id="bioInput" placeholder="Nova Bio">
+        <button onclick="saveBio()">Salvar</button>
+        <button onclick="closeModal('editBioModal')">Cancelar</button>
+    </div>
+
+    <!-- Modal de Edição de Apelido -->
+    <div id="editNicknameModal" style="display:none;">
+        <h3>Editar Apelido</h3>
+        <input type="text" id="nicknameInput" placeholder="Novo Apelido">
+        <button onclick="saveNickname()">Salvar</button>
+        <button onclick="closeModal('editNicknameModal')">Cancelar</button>
+    </div>
+
+    <!-- Modal de Edição de Nome de Usuário -->
+    <div id="editUsernameModal" style="display:none;">
+        <h3>Editar Nome de Usuário</h3>
+        <input type="text" id="usernameInput" placeholder="Novo Nome de Usuário">
+        <button onclick="saveUsername()">Salvar</button>
+        <button onclick="closeModal('editUsernameModal')">Cancelar</button>
+    </div>
+
+    <script>
+        // Função para alternar opções de edição
+        function toggleEditOptions() {
+            const editOptions = document.getElementById('editOptions');
+            editOptions.style.display = (editOptions.style.display === 'block') ? 'none' : 'block';
+            document.getElementById('editOptionsProfile').style.display = 'none'; // Esconde as opções de editar perfil
+        }
+
+        // Função para alternar opções de editar perfil
+        function toggleEditOptionsProfile() {
+            const editOptionsProfile = document.getElementById('editOptionsProfile');
+            editOptionsProfile.style.display = (editOptionsProfile.style.display === 'block') ? 'none' : 'block';
+            document.getElementById('editOptions').style.display = 'none'; // Esconde as opções de edição
+        }
+
+        // Carregar nova foto de perfil
+        function loadProfileImage(event) {
+            const profileImage = document.getElementById('profileImage');
+            profileImage.src = URL.createObjectURL(event.target.files[0]);
+            localStorage.setItem('profileImage', profileImage.src); // Salvar imagem no localStorage
+        }
+
+        // Carregar novo banner
+        function loadBannerImage(event) {
+            const bannerImage = document.getElementById('bannerImage');
+            bannerImage.src = URL.createObjectURL(event.target.files[0]);
+            localStorage.setItem('bannerImage', bannerImage.src); // Salvar imagem no localStorage
+        }
+
+        // Função para abrir o modal de edição de bio
+        function openEditBioModal() {
+            const bioInput = document.getElementById('bioInput');
+            bioInput.value = localStorage.getItem('bio') || ''; // Preencher o input com a bio atual
+            document.getElementById('editBioModal').style.display = 'block';
+        }
+
+        // Função para salvar a bio
+        function saveBio() {
+            const bioInput = document.getElementById('bioInput');
+            localStorage.setItem('bio', bioInput.value); // Salvar a nova bio no localStorage
+            document.getElementById('bio').innerText = bioInput.value; // Atualizar a exibição da bio
+            closeModal('editBioModal');
+        }
+
+        // Função para abrir o modal de edição de apelido
+        function openEditNicknameModal() {
+            const nicknameInput = document.getElementById('nicknameInput');
+            nicknameInput.value = localStorage.getItem('nickname') || ''; // Preencher o input com o apelido atual
+            document.getElementById('editNicknameModal').style.display = 'block';
+        }
+
+        // Função para salvar o apelido
+        function saveNickname() {
+            const nicknameInput = document.getElementById('nicknameInput');
+            localStorage.setItem('nickname', nicknameInput.value); // Salvar o novo apelido no localStorage
+            document.getElementById('nickname').innerText = nicknameInput.value; // Atualizar a exibição do apelido
+            closeModal('editNicknameModal');
+        }
+
+        // Função para abrir o modal de edição de nome de usuário
+        function openEditUsernameModal() {
+            const usernameInput = document.getElementById('usernameInput');
+            usernameInput.value = localStorage.getItem('username') || ''; // Preencher o input com o nome de usuário atual
