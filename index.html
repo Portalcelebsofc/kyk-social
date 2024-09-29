@@ -142,28 +142,3 @@
             font-family: Arial, sans-serif; /* Fonte do texto */
 
             <!--TELA INICAL DO APP-->
-
-    <!-- Formulário de Cadastro/Login -->
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Usuário" required>
-            <input type="password" id="password" placeholder="Senha" required>
-            <button type="submit">Cadastrar</button>
-            <button type="button" id="loginButton">Login</button>
-        </form>
-    </div>
-
-    <script>
-        // Ao clicar em Cadastrar
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Redireciona para a tela inicial
-            window.location.href = "tela_inicial.html";
-        });
-
-        // Ao clicar no botão de Login
-        document.getElementById('loginButton').addEventListener('click', function() {
-            window.location.href = "tela_inicial.html";
-        });
-    </script>
-</body>
-</html>
