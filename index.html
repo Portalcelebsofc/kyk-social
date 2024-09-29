@@ -122,16 +122,19 @@
     </div>
 
     <script>
-        // Função para lidar com o envio do formulário
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = event.target.username.value;
-            const email = event.target.email.value;
-            const password = event.target.password.value;
+    // Função para lidar com o envio do formulário
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = event.target.username.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
 
-            // Salvando os dados no Firebase
-            window.saveUserData(username, email, password);
-        });
+        // Salvando os dados no Firebase
+        window.saveUserData(username, email, password);
+
+        // Redirecionar para a tela inicial após o cadastro
+        setTimeout(() => {
+            window.location.href = 'tela_inicial.html'; // Redireciona para a tela inicial
+        }, 1000); // 1 segundo de espera para permitir que o alerta apareça
+    });
     </script>
-</body>
-</html>
