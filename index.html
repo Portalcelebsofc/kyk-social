@@ -1,11 +1,9 @@
-<!-- ABAIXO E O FIREBASE PARA SALVAR DADOS-->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscreva-se no Kyk Social</title>
+    <title>Inscreva-se no KykSocial</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +11,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #add8e6; /* Azul claro */
         }
         .container {
             background-color: white;
@@ -22,10 +20,10 @@
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
+            text-align: center;
         }
         h1 {
             color: #4A90E2;
-            text-align: center;
         }
         input {
             width: 100%;
@@ -54,6 +52,11 @@
         .login-link a {
             color: #4A90E2;
             text-decoration: none;
+        }
+        /* Logotipo */
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
         }
     </style>
 
@@ -94,7 +97,10 @@
     </script>
 </head>
 <body>
-<div class="container">
+    <div class="container">
+        <!-- Adicionar Logotipo -->
+        <img src="logo.png" alt="Logotipo do KykSocial" class="logo">
+
         <h1>Inscreva-se no KykSocial</h1>
 
         <!-- Formulário de Inscrição -->
@@ -123,30 +129,5 @@
             window.saveUserData(username, email, password);
         });
     </script>
-
 </body>
 </html>
-
-<!-- fundo azul e logonarca na interface-->
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KykSocial</title>
-    <style>
-        body {
-            background-color: #add8e6; /* Azul claro */
-            color: #000; /* Cor do texto */
-            text-align: center; /* Centraliza o texto */
-            font-family: Arial, sans-serif; /* Fonte do texto */
-
-            <!--TELA INICAL DO APP-->
-
-    <script>
-    // Ao enviar o formulário de cadastro
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        window.location.href = "tela_inicial.html"; // Verifique o nome e caminho do arquivo
-    });
-</script>
