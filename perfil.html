@@ -28,7 +28,7 @@
             border-radius: 50%;
             border: 3px solid #fff;
             position: absolute;
-            top: 100px; /* Ajustado para sobrepor o banner */
+            top: 100px;
             left: 20px;
             background-color: #fff;
         }
@@ -106,27 +106,63 @@
         <div>
             <h2 id="nickname">Apelido do Usuário</h2>
             <p id="username">@usuario</p>
+            <p id="bio">Bio não definida</p>
         </div>
         <!-- Menu de três pontinhos -->
         <div class="edit-menu" onclick="toggleEditOptions()">⋮</div>
     </div>
 
     <div class="edit-options" id="editOptions">
+        <a href="#" onclick="editProfile()">Editar Apelido</a>
+        <a href="#" onclick="editBio()">Editar Bio</a>
         <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
         <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
-        <a href="#">Editar Bio</a>
-        <a href="#">Editar Apelido</a>
+    </div>
+
+    <!-- Modais para edição -->
+    <div id="editProfileModal" style="display:none;">
+        <label for="newNickname">Novo Apelido:</label>
+        <input type="text" id="newNickname">
+        <button onclick="saveNickname()">Salvar</button>
+    </div>
+
+    <div id="editBioModal" style="display:none;">
+        <label for="newBio">Nova Bio:</label>
+        <input type="text" id="newBio">
+        <button onclick="saveBio()">Salvar</button>
     </div>
 
     <script>
         // Função para alternar opções de edição
         function toggleEditOptions() {
             const editOptions = document.getElementById('editOptions');
-            if (editOptions.style.display === 'block') {
-                editOptions.style.display = 'none';
-            } else {
-                editOptions.style.display = 'block';
-            }
+            editOptions.style.display = editOptions.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Função para abrir modal de editar apelido
+        function editProfile() {
+            document.getElementById('editProfileModal').style.display = 'block';
+        }
+
+        // Função para abrir modal de editar bio
+        function editBio() {
+            document.getElementById('editBioModal').style.display = 'block';
+        }
+
+        // Função para salvar novo apelido
+        function saveNickname() {
+            const newNickname = document.getElementById('newNickname').value;
+            document.getElementById('nickname').textContent = newNickname;
+            localStorage.setItem('nickname', newNickname);
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        // Função para salvar nova bio
+        function saveBio() {
+            const newBio = document.getElementById('newBio').value;
+            document.getElementById('bio').textContent = newBio;
+            localStorage.setItem('bio', newBio);
+            document.getElementById('editBioModal').style.display = 'none';
         }
 
         // Carregar nova foto de perfil
@@ -149,8 +185,25 @@
             isDarkMode = !isDarkMode;
             document.body.style.backgroundColor = isDarkMode ? '#333' : '#fff';
             document.body.style.color = isDarkMode ? '#fff' : '#000';
-            themeToggle.textContent = isDarkMode ? '☽' : '☀';
+            themeToggle.textContent = isDarkMode ? '🌙' : '☀️';
         });
+
+        // Função para carregar os dados salvos do usuário
+        function loadUserData() {
+            const savedNickname = localStorage.getItem('nickname');
+            const savedBio = localStorage.getItem('bio');
+
+            if (savedNickname) {
+                document.getElementById('nickname').textContent = savedNickname;
+            }
+
+            if (savedBio) {
+                document.getElementById('bio').textContent = savedBio;
+            }
+        }
+
+        // Chamar a função ao carregar a página
+        window.onload = loadUserData;
     </script>
 
 </body>
