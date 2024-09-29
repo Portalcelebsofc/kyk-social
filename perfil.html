@@ -3,124 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário</title>
+    <title>Perfil - KykSocial</title>
     <style>
         body {
             margin: 0;
-            padding: 0;
             background-color: white; /* Fundo liso branco */
+            font-family: Arial, sans-serif;
         }
         .banner {
             width: 100%;
-            height: 60px; /* Altura do banner */
+            height: 80px; /* Altura do banner */
             background-color: #4A90E2; /* Cor do banner */
-            position: relative; /* Para posicionar o ícone do tema */
+            margin-bottom: 20px; /* Espaço entre o banner e o restante */
         }
-        .profile-image {
+        .profile-container {
+            padding: 20px;
+            position: relative;
+        }
+        .profile-picture {
             width: 50px; /* Tamanho da foto de perfil */
             height: 50px; /* Tamanho da foto de perfil */
-            border-radius: 50%; /* Círculo */
+            border-radius: 50%; /* Formato circular */
             position: absolute;
-            top: 5px; /* Distância do topo */
-            left: 10px; /* Distância da esquerda */
-            border: 2px solid white; /* Borda branca */
-        }
-        .nickname {
-            position: absolute;
-            top: 10px; /* Distância do topo */
-            left: 70px; /* Distância da esquerda */
-            color: white; /* Cor do texto do apelido */
-            font-size: 18px; /* Tamanho da fonte do apelido */
+            top: 15px; /* Distância do topo */
+            left: 20px; /* Distância da esquerda */
+            border: 2px solid white; /* Borda branca ao redor da foto */
         }
         .username {
-            position: absolute;
-            top: 30px; /* Distância do topo */
-            left: 70px; /* Distância da esquerda */
-            color: white; /* Cor do texto do nome de usuário */
-            font-size: 14px; /* Tamanho da fonte do nome de usuário */
+            margin-top: 60px; /* Espaço abaixo da foto de perfil */
+            font-weight: bold;
         }
-        .theme-toggle {
-            position: absolute;
-            top: 10px; /* Distância do topo */
-            right: 10px; /* Distância da direita */
-            cursor: pointer; /* Mão ao passar o mouse */
+        .nickname {
+            font-size: 16px;
+            color: #555; /* Cor do apelido */
         }
-        .options {
-            margin-top: 80px; /* Espaçamento abaixo do banner */
-            padding: 15px; /* Preenchimento */
+        .edit-options {
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Alinha à esquerda */
         }
-        .option {
-            margin: 5px 0; /* Espaçamento entre as opções */
-            font-size: 16px; /* Tamanho da fonte das opções */
-            cursor: pointer; /* Mão ao passar o mouse */
+        .edit-option {
+            margin: 10px 0;
+            cursor: pointer;
+            color: #4A90E2; /* Cor das opções */
+            text-decoration: underline;
+        }
+        /* Esconder os inputs de arquivo */
+        input[type="file"] {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Banner do Perfil -->
-    <div class="banner">
-        <input type="file" accept="image/*" id="profileImageInput" onchange="loadProfileImage(event)">
-        <img src="<input type="file" accept="image/*" id="profileImageInput" onchange="loadProfileImage(event)">
-<img src="path/to/profile.jpg" id="profileImage" alt="<input type="file" accept="image/*" id="bannerImageInput" onchange="loadBannerImage(event)">
-<div id="banner" class="banner" style="background-image: url('path/to/banner.jpg');"></div>" id="profileImage" alt="Foto de Perfil" class="profile-image">
-        <div class="nickname">Apelido do Usuário</div>
-        <div class="username">@nomeusuario</div>
-        <img src="path/to/sun-icon.png" alt="Tema" class="theme-toggle" onclick="toggleTheme()">
-    </div>
+    <div class="banner" id="bannerImage"></div> <!-- Banner -->
+    <div class="profile-container">
+        <img src="<input type="file" accept="image/*" id="bannerImageInput" onchange="loadBannerImage(event)">
+<div id="banner" class="banner" style="background-image: url('path/to/banner.jpg');"></div>" alt="Foto de Perfil" class="profile-picture" id="profilePicture"> <!-- Imagem de perfil -->
+        <div class="nickname">Apelido do Usuário</div> <!-- Apelido do usuário -->
+        <div class="username">@usuario</div> <!-- Nome de usuário -->
 
-    <!-- Opções do Perfil -->
-    <div class="options">
-        <div class="option" onclick="editProfile()">Editar Perfil</div>
-        <div class="option" onclick="shareProfile()">Compartilhar Perfil</div>
-        <div class="option" onclick="viewInsights()">Ver Insights</div>
-        <div class="option" onclick="makePost()">Fazer Postagem</div>
+        <div class="edit-options">
+            <label class="edit-option" for="profileUpload">Trocar foto de perfil</label>
+            <input type="file" id="profileUpload" accept="image/*" onchange="updateProfilePicture(event)">
+            <label class="edit-option" for="bannerUpload">Trocar foto de banner</label>
+            <input type="file" id="bannerUpload" accept="image/*" onchange="updateBanner(event)">
+            <div class="edit-option" onclick="alert('Editar bio')">Editar bio</div>
+            <div class="edit-option" onclick="alert('Editar apelido')">Editar apelido</div>
+        </div>
     </div>
 
     <script>
-        function loadProfileImage(event) {
-            const profileImage = document.getElementById('profileImage');
+        function updateProfilePicture(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
-                profileImage.src = e.target.result; // Atualiza a imagem de perfil
+                document.getElementById('profilePicture').src = e.target.result; // Atualiza a imagem de perfil
             }
-            reader.readAsDataURL(file); // Lê o arquivo como URL de dados
-        }
-
-        function toggleTheme() {
-            const body = document.body;
-            if (body.style.backgroundColor === "white") {
-                body.style.backgroundColor = "#333"; // Tema escuro
-                body.style.color = "white"; // Cor do texto
-                document.querySelector('.banner').style.backgroundColor = "#222"; // Cor do banner em tema escuro
-            } else {
-                body.style.backgroundColor = "white"; // Tema claro
-                body.style.color = "black"; // Cor do texto
-                document.querySelector('.banner').style.backgroundColor = "#4A90E2"; // Cor do banner em tema claro
+            if (file) {
+                reader.readAsDataURL(file); // Lê o arquivo como URL de dados
             }
         }
 
-        function editProfile() {
-            // Função para editar o perfil
-            alert("Abrir formulário de edição de perfil.");
-        }
-
-        function shareProfile() {
-            // Função para compartilhar o perfil
-            alert("Compartilhar perfil.");
-        }
-
-        function viewInsights() {
-            // Função para ver os insights
-            alert("Ver insights da conta.");
-        }
-
-        function makePost() {
-            // Função para fazer uma postagem
-            alert("Abrir formulário para nova postagem.");
+        function updateBanner(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('bannerImage').style.backgroundImage = `url(${e.target.result})`; // Atualiza a imagem do banner
+            }
+            if (file) {
+                reader.readAsDataURL(file); // Lê o arquivo como URL de dados
+            }
         }
     </script>
 </body>
