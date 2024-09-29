@@ -39,34 +39,43 @@
             padding-left: 140px;
             padding-right: 50px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            align-items: flex-start; /* Alinhado no topo */
         }
 
         .user-info h2 {
             margin: 0;
             font-size: 22px;
+            margin-left: 10px; /* Espaçamento entre imagem e texto */
         }
 
         .user-info p {
             margin: 5px 0;
             color: gray;
+            margin-left: 10px; /* Espaçamento entre imagem e texto */
         }
 
-        /* Menu de três pontinhos */
-        .edit-menu {
+        /* Opção "Editar Perfil" */
+        .edit-profile {
+            margin-top: 20px;
             cursor: pointer;
+            color: #4A90E2;
+            font-weight: bold;
+            position: absolute;
+            top: 160px; /* Abaixo do banner */
+            right: 20px; /* Alinhado à direita */
         }
 
+        /* Opções de edição */
         .edit-options {
             display: none;
             position: absolute;
-            top: 40px;
+            top: 190px; /* Espaçamento abaixo do "Editar Perfil" */
             right: 20px;
             background-color: white;
             border: 1px solid #ddd;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
+            z-index: 100; /* Para ficar acima de outros elementos */
         }
 
         .edit-options a {
@@ -91,8 +100,6 @@
 
     <!-- Banner -->
     <div class="banner">
-        <!-- Ícone de tema (Sol/Lua) -->
-        <span id="themeToggle" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">☀️</span>
         <img src="" id="bannerImage" alt="Banner do Perfil" class="banner-image" style="width: 100%; height: 100%; object-fit: cover;">
         <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
     </div>
@@ -101,21 +108,22 @@
     <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic">
     <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)">
 
-    <!-- Informações do usuário e menu de três pontinhos -->
+    <!-- Informações do usuário -->
     <div class="user-info">
-        <div>
-            <h2 id="nickname">Apelido do Usuário</h2>
-            <p id="username">@usuario</p>
-        </div>
-        <!-- Menu de três pontinhos -->
-        <div class="edit-menu" onclick="toggleEditOptions()">⋮</div>
+        <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic">
+        <h2 id="nickname">Apelido do Usuário</h2>
+        <p id="username">@usuario</p>
     </div>
+
+    <!-- Opção "Editar Perfil" -->
+    <div class="edit-profile" onclick="toggleEditOptions()">Editar Perfil</div>
 
     <div class="edit-options" id="editOptions">
         <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
         <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
-        <a href="#">Editar Bio</a>
+        <a href="#">Editar Nome de Usuário</a>
         <a href="#">Editar Apelido</a>
+        <a href="#">Editar Bio</a>
     </div>
 
     <script>
