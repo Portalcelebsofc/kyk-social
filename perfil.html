@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Usuário</title>
     <style>
-        /* Estilos básicos para o layout */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -14,12 +13,9 @@
         }
         .profile-banner {
             width: 100%;
-            height: 150px; /* Ajuste o tamanho do banner aqui */
+            height: 150px;
             background-color: #ccc;
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         .profile-picture {
             position: absolute;
@@ -57,6 +53,9 @@
             right: 10px;
             cursor: pointer;
         }
+        button {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -64,11 +63,13 @@
     <div class="profile-banner" id="bannerContainer">
         <img src="" alt="Banner" id="bannerImage" style="width: 100%; height: 100%; object-fit: cover;">
         <input type="file" accept="image/*" id="bannerInput" style="display:none;" onchange="loadBannerImage(event)">
+        <button onclick="document.getElementById('bannerInput').click()">Trocar Banner</button>
     </div>
 
     <!-- Foto de Perfil -->
     <img src="" alt="Foto de Perfil" class="profile-picture" id="profilePicture">
     <input type="file" accept="image/*" id="profileImageInput" style="display:none;" onchange="loadProfileImage(event)">
+    <button onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</button>
 
     <!-- Informações do Perfil -->
     <div class="profile-info">
@@ -84,17 +85,8 @@
         <label for="newUsername">Novo Nome de Usuário (@):</label>
         <input type="text" id="newUsername">
         <button onclick="saveProfile()">Salvar</button>
+        <button onclick="closeEditProfile()">Cancelar</button>
     </div>
-
-    <!-- Modal de Edição de Bio -->
-    <div id="editBioModal" class="edit-bio-modal">
-        <label for="newBio">Nova Bio:</label>
-        <textarea id="newBio"></textarea>
-        <button onclick="saveBio()">Salvar</button>
-    </div>
-
-    <!-- Ícone de Tema -->
-    <img src="path/to/sun-icon.png" alt="Tema Claro" class="theme-icon" id="themeIcon" onclick="toggleTheme()">
 
     <script>
         // Carregar a imagem de perfil do input
@@ -171,9 +163,14 @@
             }
         }
 
-        // Funções para editar perfil e bio
+        // Abrir a janela de edição do perfil
         function editProfile() {
             document.getElementById('editProfileModal').style.display = 'block';
+        }
+
+        // Fechar a janela de edição do perfil
+        function closeEditProfile() {
+            document.getElementById('editProfileModal').style.display = 'none';
         }
 
         // Carregar dados ao iniciar a página
