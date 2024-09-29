@@ -28,15 +28,19 @@
             border-radius: 50%;
             border: 3px solid #fff;
             position: absolute;
-            bottom: -50px;
+            top: 100px; /* Ajustado para sobrepor o banner */
             left: 20px;
             background-color: #fff;
         }
 
         /* Informações do usuário */
         .user-info {
-            margin-top: 70px;
+            margin-top: 40px;
             padding-left: 140px;
+            padding-right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .user-info h2 {
@@ -51,9 +55,6 @@
 
         /* Menu de três pontinhos */
         .edit-menu {
-            position: absolute;
-            top: 10px;
-            right: 20px;
             cursor: pointer;
         }
 
@@ -96,18 +97,20 @@
         <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
     </div>
 
-    <!-- Foto de Perfil -->
+    <!-- Foto de Perfil sobreposta ao banner -->
     <img src="path/to/profile.jpg" id="profileImage" alt="Foto de Perfil" class="profile-pic">
     <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)">
 
-    <!-- Informações do usuário -->
+    <!-- Informações do usuário e menu de três pontinhos -->
     <div class="user-info">
-        <h2 id="nickname">Apelido do Usuário</h2>
-        <p id="username">@usuario</p>
+        <div>
+            <h2 id="nickname">Apelido do Usuário</h2>
+            <p id="username">@usuario</p>
+        </div>
+        <!-- Menu de três pontinhos -->
+        <div class="edit-menu" onclick="toggleEditOptions()">⋮</div>
     </div>
 
-    <!-- Menu de três pontinhos -->
-    <div class="edit-menu" onclick="toggleEditOptions()">⋮</div>
     <div class="edit-options" id="editOptions">
         <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
         <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
@@ -146,7 +149,7 @@
             isDarkMode = !isDarkMode;
             document.body.style.backgroundColor = isDarkMode ? '#333' : '#fff';
             document.body.style.color = isDarkMode ? '#fff' : '#000';
-            themeToggle.textContent = isDarkMode ? '🌙' : '☀️';
+            themeToggle.textContent = isDarkMode ? '☽' : '☀';
         });
     </script>
 
