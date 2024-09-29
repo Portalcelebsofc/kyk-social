@@ -95,3 +95,105 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KykSocial - Tela Inicial</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link para o CSS se houver -->
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif; /* Fonte semelhante ao iPhone */
+            background-color: #add8e6; /* Azul claro */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinhar para o topo */
+            height: 100vh;
+        }
+        h1 {
+            color: #4A90E2;
+            margin-top: 20px;
+        }
+        .post-container {
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none; /* Para impedir redimensionamento */
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4A90E2;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        /* Estilo adicional para a lista de postagens */
+        .posts {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .post {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bem-vindo ao KykSocial!</h1>
+
+    <!-- Área de postagem -->
+    <div class="post-container">
+        <textarea placeholder="O que você está pensando?"></textarea>
+        <button>Postar</button>
+    </div>
+
+    <!-- Lista de postagens -->
+    <div class="posts">
+        <div class="post">Exemplo de postagem 1.</div>
+        <div class="post">Exemplo de postagem 2.</div>
+        <div class="post">Exemplo de postagem 3.</div>
+    </div>
+
+    <script>
+        // Aqui você pode adicionar a lógica para salvar e exibir postagens
+        const button = document.querySelector('button');
+        const textarea = document.querySelector('textarea');
+        const postsContainer = document.querySelector('.posts');
+
+        button.addEventListener('click', () => {
+            const postText = textarea.value;
+            if (postText) {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                postElement.textContent = postText;
+                postsContainer.appendChild(postElement);
+                textarea.value = ''; // Limpa a caixa de texto
+            }
+        });
+    </script>
+</body>
+</html>
