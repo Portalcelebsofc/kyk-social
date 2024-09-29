@@ -38,10 +38,13 @@
             margin-top: 40px;
             padding-left: 140px;
             padding-right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .user-info h2 {
-            margin: 5px 0 0 0;
+            margin: 0;
             font-size: 22px;
         }
 
@@ -53,21 +56,17 @@
         /* Menu de três pontinhos */
         .edit-menu {
             cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 20px;
         }
 
         .edit-options {
             display: none;
             position: absolute;
-            top: 10px;
+            top: 40px;
             right: 20px;
             background-color: white;
             border: 1px solid #ddd;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 10px;
-            z-index: 1;
         }
 
         .edit-options a {
@@ -94,18 +93,20 @@
     <div class="banner">
         <!-- Ícone de tema (Sol/Lua) -->
         <span id="themeToggle" style="position: absolute; top: 10px; right: 10px; cursor: pointer;">☀️</span>
-        <img src="path/to/banner.jpg" id="bannerImage" alt="Banner do Perfil" class="banner-image">
+        <img src="" id="bannerImage" alt="Banner do Perfil" class="banner-image" style="width: 100%; height: 100%; object-fit: cover;">
         <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
     </div>
 
     <!-- Foto de Perfil sobreposta ao banner -->
-    <img src="path/to/profile.jpg" id="profileImage" alt="Foto de Perfil" class="profile-pic">
+    <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic">
     <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)">
 
     <!-- Informações do usuário e menu de três pontinhos -->
     <div class="user-info">
-        <h2 id="nickname">Apelido do Usuário</h2>
-        <p id="username">@usuario</p>
+        <div>
+            <h2 id="nickname">Apelido do Usuário</h2>
+            <p id="username">@usuario</p>
+        </div>
         <!-- Menu de três pontinhos -->
         <div class="edit-menu" onclick="toggleEditOptions()">⋮</div>
     </div>
@@ -117,20 +118,11 @@
         <a href="#">Editar Apelido</a>
     </div>
 
-    <div>
-        <button onclick="shareProfile()">📤 Compartilhar Link</button>
-    </div>
-
     <script>
         // Função para alternar opções de edição
         function toggleEditOptions() {
             const editOptions = document.getElementById('editOptions');
             editOptions.style.display = editOptions.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Função para compartilhar perfil
-        function shareProfile() {
-            alert('Link do perfil compartilhado!');
         }
 
         // Carregar nova foto de perfil
