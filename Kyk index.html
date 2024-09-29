@@ -10,30 +10,259 @@
     <p></p>
 </body>
 </html>
+
+<!-- ABAIXO É O FIREBASE -PARA SALVAR DADOS DOS USUÁRIOS-->
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo à KykSocial</title>
+    <title>Inscreva-se no KykSocial</title>
     <style>
         body {
-            background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
         }
         h1 {
             color: #4A90E2;
+            text-align: center;
         }
-        p {
-            font-size: 18px;
-            color: #333;
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4A90E2;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .login-link a {
+            color: #4A90E2;
+            text-decoration: none;
         }
     </style>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-analytics.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyArKBLxBYztuQoxtw1bo8j4TkbeK5Dtax4",
+            authDomain: "kyk-social.firebaseapp.com",
+            projectId: "kyk-social",
+            storageBucket: "kyk-social.appspot.com",
+            messagingSenderId: "1060147133054",
+            appId: "1:1060147133054:web:894df399636e7ac40b762f",
+            measurementId: "G-DK191N3F88"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        // Função para salvar dados no Firebase
+        window.saveUserData = function(username, email, password) {
+            set(ref(database, 'users/' + username), {
+                email: email,
+                password: password
+            }).then(() => {
+                alert('Conta criada com sucesso!');
+            }).catch((error) => {
+                console.error('Erro ao criar conta:', error);
+            });
+        };
+    </script>
 </head>
 <body>
-    <h1>KykSocial</h1>
-    <p>Bem-vindo à minha rede social. Em breve, teremos mais recursos!</p>
+
+    <div class="container">
+        <h1>Inscreva-se no KykSocial</h1>
+
+        <!-- Formulário de Inscrição -->
+        <form id="signupForm">
+            <input type="text" name="username" placeholder="Nome de usuário" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Criar Conta</button>
+        </form>
+
+        <!-- Link para login -->
+        <div class="login-link">
+            Já tem uma conta? <a href="#">Faça login</a>
+        </div>
+    </div>
+
+    <script>
+        // Função para lidar com o envio do formulário
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = event.target.username.value;
+            const email = event.target.email.value;
+            const password = event.target.password.value;
+
+            // Salvando os dados no Firebase
+            window.saveUserData(username, email, password);
+        });
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscreva-se no KykSocial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #4A90E2;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4A90E2;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .login-link a {
+            color: #4A90E2;
+            text-decoration: none;
+        }
+    </style>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-analytics.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyArKBLxBYztuQoxtw1bo8j4TkbeK5Dtax4",
+            authDomain: "kyk-social.firebaseapp.com",
+            projectId: "kyk-social",
+            storageBucket: "kyk-social.appspot.com",
+            messagingSenderId: "1060147133054",
+            appId: "1:1060147133054:web:894df399636e7ac40b762f",
+            measurementId: "G-DK191N3F88"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        // Função para salvar dados no Firebase
+        window.saveUserData = function(username, email, password) {
+            set(ref(database, 'users/' + username), {
+                email: email,
+                password: password
+            }).then(() => {
+                alert('Conta criada com sucesso!');
+            }).catch((error) => {
+                console.error('Erro ao criar conta:', error);
+            });
+        };
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Inscreva-se no KykSocial</h1>
+
+        <!-- Formulário de Inscrição -->
+        <form id="signupForm">
+            <input type="text" name="username" placeholder="Nome de usuário" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Criar Conta</button>
+        </form>
+
+        <!-- Link para login -->
+        <div class="login-link">
+            Já tem uma conta? <a href="#">Faça login</a>
+        </div>
+    </div>
+
+    <script>
+        // Função para lidar com o envio do formulário
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = event.target.username.value;
+            const email = event.target.email.value;
+            const password = event.target.password.value;
+
+            // Salvando os dados no Firebase
+            window.saveUserData(username, email, password);
+        });
+    </script>
+
 </body>
 </html>
