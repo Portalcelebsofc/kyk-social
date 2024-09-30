@@ -53,6 +53,22 @@
             margin-left: 10px; /* Espaçamento entre imagem e texto */
         }
 
+        /* Bio do usuário */
+        .bio {
+            margin-top: 20px;
+            padding-left: 140px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Estatísticas de seguidores, seguindo e postagens */
+        .stats {
+            margin-top: 10px;
+            padding-left: 140px;
+            display: flex;
+            gap: 20px; /* Espaçamento entre as estatísticas */
+        }
+
         /* Opção "Editar Perfil" */
         .edit-profile {
             margin-top: 20px;
@@ -93,6 +109,21 @@
             display: none;
         }
 
+        /* Funções abaixo da bio */
+        .functions {
+            margin-top: 20px;
+            padding-left: 140px;
+            display: flex;
+            gap: 20px; /* Espaçamento entre as funções */
+        }
+
+        .function {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -115,6 +146,16 @@
         </div>
     </div>
 
+    <!-- Bio do usuário -->
+    <div class="bio" id="bio">Esta é a bio do usuário. Adicione uma descrição aqui.</div>
+
+    <!-- Estatísticas -->
+    <div class="stats">
+        <div><strong id="followersCount">0</strong> Seguidores</div>
+        <div><strong id="followingCount">0</strong> Seguindo</div>
+        <div><strong id="postsCount">0</strong> Postagens</div>
+    </div>
+
     <!-- Opção "Editar Perfil" -->
     <div class="edit-profile" onclick="toggleEditOptions()">Editar Perfil</div>
 
@@ -126,6 +167,14 @@
         <a href="#" onclick="editBio()">Editar Bio</a>
     </div>
 
+    <!-- Funções abaixo da bio -->
+    <div class="functions">
+        <div class="function" onclick="viewPosts()">Postagens</div>
+        <div class="function" onclick="viewLikes()">Curtidas</div>
+        <div class="function" onclick="viewMedia()">Mídia</div>
+        <div class="function" onclick="viewSaved()">Salvos</div>
+    </div>
+
     <script>
         // Função para carregar dados do Local Storage
         function loadUserData() {
@@ -135,6 +184,10 @@
                 document.getElementById('bannerImage').src = storedUser.bannerImage || '';
                 document.getElementById('nickname').textContent = storedUser.nickname || 'Apelido do Usuário';
                 document.getElementById('username').textContent = storedUser.username || '@usuario';
+                document.getElementById('bio').textContent = storedUser.bio || 'Esta é a bio do usuário. Adicione uma descrição aqui.';
+                document.getElementById('followersCount').textContent = storedUser.followersCount || 0;
+                document.getElementById('followingCount').textContent = storedUser.followingCount || 0;
+                document.getElementById('postsCount').textContent = storedUser.postsCount || 0;
             }
         }
 
@@ -144,7 +197,11 @@
                 nickname: document.getElementById('nickname').textContent,
                 username: document.getElementById('username').textContent,
                 profileImage: document.getElementById('profileImage').src,
-                bannerImage: document.getElementById('bannerImage').src
+                bannerImage: document.getElementById('bannerImage').src,
+                bio: document.getElementById('bio').textContent,
+                followersCount: document.getElementById('followersCount').textContent,
+                followingCount: document.getElementById('followingCount').textContent,
+                postsCount: document.getElementById('postsCount').textContent
             };
             localStorage.setItem('user', JSON.stringify(user));
         }
@@ -180,25 +237,4 @@
 
         // Editar apelido
         function editNickname() {
-            const newNickname = prompt("Digite o novo apelido:", document.getElementById('nickname').textContent);
-            if (newNickname) {
-                document.getElementById('nickname').textContent = newNickname;
-                saveUserData(); // Salva o novo apelido
-            }
-        }
-
-        // Editar bio (para simplificação, vamos deixar a bio em um prompt de alerta)
-        function editBio() {
-            const newBio = prompt("Digite a nova bio:", "Aqui está a bio do usuário."); // O valor padrão pode ser mudado conforme a necessidade
-            if (newBio) {
-                alert("Bio atualizada para: " + newBio);
-                // Você pode adicionar um elemento para exibir a bio, se necessário
-            }
-        }
-
-        // Carregar dados do usuário ao iniciar a página
-        window.onload = loadUserData;
-    </script>
-
-</body>
-</html>
+            const newNickname = prompt("
