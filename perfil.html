@@ -7,9 +7,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #fff;
             margin: 0;
             padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
 
         /* Banner */
@@ -18,7 +28,7 @@
             height: 150px;
             background-color: #4A90E2;
             position: relative;
-            overflow: hidden;
+            border-radius: 8px 8px 0 0;
         }
 
         /* Foto de Perfil */
@@ -28,30 +38,30 @@
             border-radius: 50%;
             border: 3px solid #fff;
             position: absolute;
-            top: 100px; /* Ajustado para sobrepor o banner */
+            top: 90px;
             left: 20px;
             background-color: #fff;
         }
 
         /* Informações do usuário */
         .user-info {
-            margin-top: 40px;
+            margin-top: 80px;
             padding-left: 140px;
             display: flex;
-            align-items: center; /* Centraliza verticalmente */
-            flex-direction: column; /* Alinha verticalmente */
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .user-info h2 {
             margin: 0;
-            font-size: 22px;
-            margin-left: 10px; /* Espaçamento entre imagem e texto */
+            font-size: 24px;
+            color: #333;
         }
 
         .user-info p {
             margin: 5px 0;
             color: gray;
-            margin-left: 10px; /* Espaçamento entre imagem e texto */
+            font-size: 16px;
         }
 
         /* Bio do usuário */
@@ -67,162 +77,137 @@
             margin-top: 10px;
             padding-left: 140px;
             display: flex;
-            gap: 20px; /* Espaçamento entre as estatísticas */
+            justify-content: space-between;
+            width: 100%; /* Para preencher a largura disponível */
+            max-width: 300px; /* Limita a largura */
         }
 
-        /* Opção "Editar Perfil" */
-        .edit-profile {
-            margin-top: 20px;
-            cursor: pointer;
-            color: #4A90E2;
-            font-weight: bold;
-            position: absolute;
-            top: 160px; /* Abaixo do banner */
-            right: 20px; /* Alinhado à direita */
-        }
-
-        /* Opções de edição */
-        .edit-options {
-            display: none;
-            position: absolute;
-            top: 190px; /* Espaçamento abaixo do "Editar Perfil" */
-            right: 20px;
-            background-color: white;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            z-index: 100; /* Para ficar acima de outros elementos */
-        }
-
-        .edit-options a {
-            display: block;
-            padding: 5px;
-            text-decoration: none;
-            color: black;
-        }
-
-        .edit-options a:hover {
-            background-color: #f1f1f1;
-        }
-
-        /* Funções abaixo da bio */
-        .functions {
-            margin-top: 20px;
-            padding-left: 140px;
-            display: flex;
-            justify-content: space-around; /* Centraliza horizontalmente */
-            gap: 20px; /* Espaçamento entre as funções */
-            flex-wrap: wrap; /* Faz com que as funções se ajustem na tela */
-        }
-
-        .function {
-            padding: 10px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
+        .stats div {
             text-align: center;
-            cursor: pointer;
-            flex: 1 0 150px; /* Faz com que cada função ocupe pelo menos 150px */
-            margin: 5px; /* Espaçamento entre as funções */
+            font-weight: bold;
         }
 
         /* Linha de separação */
         .separator {
             margin: 20px 0;
             border-top: 1px solid #ddd;
-            width: 80%; /* Ajuste a largura da linha de separação */
-            margin-left: auto;
-            margin-right: auto; /* Centraliza a linha */
+        }
+
+        /* Funções abaixo da bio */
+        .functions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .function {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin: 0 5px; /* Espaçamento entre as funções */
+            cursor: pointer;
+        }
+
+        .function:hover {
+            background-color: #ccc;
+        }
+
+        /* Botão de editar perfil */
+        .edit-profile {
+            cursor: pointer;
+            color: #4A90E2;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
         }
     </style>
 </head>
 <body>
 
-    <!-- Banner -->
-    <div class="banner">
-        <img src="" id="bannerImage" alt="Banner do Perfil" class="banner-image" style="width: 100%; height: 100%; object-fit: cover;">
-        <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
-    </div>
+    <div class="container">
+        <!-- Banner -->
+        <div class="banner">
+            <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)" style="display:none;">
+            <img src="" id="bannerImage" alt="Banner do Perfil" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px 8px 0 0;">
+            <div style="position: absolute; top: 10px; right: 10px; color: white; cursor: pointer;" onclick="document.getElementById('bannerInput').click()">Trocar Banner</div>
+        </div>
 
-    <!-- Foto de Perfil sobreposta ao banner -->
-    <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic">
-    <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)">
+        <!-- Foto de Perfil -->
+        <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)" style="display:none;">
+        <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic" onclick="document.getElementById('profileImageInput').click()">
 
-    <!-- Informações do usuário -->
-    <div class="user-info">
-        <div>
+        <!-- Informações do usuário -->
+        <div class="user-info">
             <h2 id="nickname">Apelido do Usuário</h2>
             <p id="username">@usuario</p>
         </div>
-    </div>
 
-    <!-- Bio do usuário -->
-    <div class="bio" id="bio">Esta é a bio do usuário. Adicione uma descrição aqui.</div>
+        <!-- Bio do usuário -->
+        <div class="bio" id="bio">Esta é a bio do usuário. Adicione uma descrição aqui.</div>
 
-    <!-- Estatísticas -->
-    <div class="stats">
-        <div><strong id="followersCount">0</strong> Seguidores</div>
-        <div><strong id="followingCount">0</strong> Seguindo</div>
-        <div><strong id="postsCount">0</strong> Postagens</div>
-    </div>
+        <!-- Estatísticas -->
+        <div class="stats">
+            <div><span id="followersCount">0</span> Seguidores</div>
+            <div><span id="followingCount">0</span> Seguindo</div>
+            <div><span id="postsCount">0</span> Postagens</div>
+        </div>
 
-    <!-- Linha de separação -->
-    <div class="separator"></div>
+        <!-- Linha de separação -->
+        <div class="separator"></div>
 
-    <!-- Opção "Editar Perfil" -->
-    <div class="edit-profile" onclick="toggleEditOptions()">Editar Perfil</div>
+        <!-- Funções abaixo da bio -->
+        <div class="functions">
+            <div class="function" onclick="viewPosts()">Postagens</div>
+            <div class="function" onclick="viewLikes()">Curtidas</div>
+            <div class="function" onclick="viewMedia()">Mídia</div>
+            <div class="function" onclick="viewSaved()">Salvos</div>
+        </div>
 
-    <div class="edit-options" id="editOptions">
-        <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
-        <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
-        <a href="#" onclick="editUsername()">Editar Nome de Usuário</a>
-        <a href="#" onclick="editNickname()">Editar Apelido</a>
-        <a href="#" onclick="editBio()">Editar Bio</a>
-    </div>
-
-    <!-- Funções abaixo da bio -->
-    <div class="functions">
-        <div class="function" onclick="viewPosts()">Postagens</div>
-        <div class="function" onclick="viewLikes()">Curtidas</div>
-        <div class="function" onclick="viewMedia()">Mídia</div>
-        <div class="function" onclick="viewSaved()">Salvos</div>
+        <!-- Botão de editar perfil -->
+        <div class="edit-profile" onclick="toggleEditOptions()">Editar Perfil</div>
     </div>
 
     <script>
-        // Função para carregar dados do Local Storage
-        function loadUserData() {
-            const storedUser = JSON.parse(localStorage.getItem('user'));
-            if (storedUser) {
-                document.getElementById('profileImage').src = storedUser.profileImage || '';
-                document.getElementById('bannerImage').src = storedUser.bannerImage || '';
-                document.getElementById('nickname').textContent = storedUser.nickname || 'Apelido do Usuário';
-                document.getElementById('username').textContent = storedUser.username || '@usuario';
-                document.getElementById('bio').textContent = storedUser.bio || 'Esta é a bio do usuário. Adicione uma descrição aqui.';
-                document.getElementById('followersCount').textContent = storedUser.followersCount || 0;
-                document.getElementById('followingCount').textContent = storedUser.followingCount || 0;
-                document.getElementById('postsCount').textContent = storedUser.postsCount || 0;
-            }
+        // Função para carregar imagem do banner
+        function loadBannerImage(event) {
+            const bannerImage = document.getElementById('bannerImage');
+            bannerImage.src = URL.createObjectURL(event.target.files[0]);
         }
 
-        // Função para salvar dados no Local Storage
-        function saveUserData() {
-            const user = {
-                nickname: document.getElementById('nickname').textContent,
-                username: document.getElementById('username').textContent,
-                profileImage: document.getElementById('profileImage').src,
-                bannerImage: document.getElementById('bannerImage').src,
-                bio: document.getElementById('bio').textContent,
-                followersCount: document.getElementById('followersCount').textContent,
-                followingCount: document.getElementById('followingCount').textContent,
-                postsCount: document.getElementById('postsCount').textContent
-            };
-            localStorage.setItem('user', JSON.stringify(user));
-        }
-
-        // Função para alternar opções de edição
-        function toggleEditOptions() {
-            const editOptions = document.getElementById('editOptions');
-            editOptions.style.display = editOptions.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Carregar nova foto de perfil
+        // Função para carregar imagem do perfil
         function loadProfileImage(event) {
+            const profileImage = document.getElementById('profileImage');
+            profileImage.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        // Exemplo de funções para navegação
+        function viewPosts() {
+            alert("Exibindo postagens do usuário.");
+        }
+
+        function viewLikes() {
+            alert("Exibindo curtidas do usuário.");
+        }
+
+        function viewMedia() {
+            alert("Exibindo mídias do usuário.");
+        }
+
+        function viewSaved() {
+            alert("Exibindo itens salvos do usuário.");
+        }
+
+        // Alternar opções de edição
+        function toggleEditOptions() {
+            alert("Opções de edição não implementadas ainda.");
+        }
+
+        // Função para carregar dados do Local Storage (caso precise)
+        function loadUserData() {
+            // Aqui você pode implementar a lógica para carregar dados do usuário.
+        }
+    </script>
+</body>
+</html>
