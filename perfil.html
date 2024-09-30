@@ -4,8 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil KykSocial</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .banner {
+            position: relative;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .edit-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .profile {
+            margin-top: 20px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-right: 20px;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .stats {
+            margin: 10px 0;
+        }
+
+        .profile-details {
+            margin-top: 20px;
+        }
+
+        .info-section {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .post-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -67,174 +191,52 @@
             <button id="saveChanges">Salvar Alterações</button>
         </div>
     </div>
+
+    <script>
+        document.getElementById('editProfile').onclick = function() {
+            document.getElementById('editModal').style.display = 'block';
+        };
+
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('editModal').style.display = 'none';
+        };
+
+        document.getElementById('saveChanges').onclick = function() {
+            const newNickname = document.getElementById('newNickname').value;
+            const newProfileImage = document.getElementById('newProfileImage').files[0];
+            const newBannerImage = document.getElementById('newBannerImage').files[0];
+            const newTheme = document.getElementById('newTheme').value;
+
+            if (newNickname) {
+                document.getElementById('nickname').innerText = newNickname;
+            }
+            
+            if (newProfileImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImage').src = e.target.result;
+                };
+                reader.readAsDataURL(newProfileImage);
+            }
+
+            if (newBannerImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.banner-image').src = e.target.result;
+                };
+                reader.readAsDataURL(newBannerImage);
+            }
+
+            document.body.style.backgroundColor = newTheme === 'dark' ? '#333' : '#f0f0f0';
+            
+            document.getElementById('editModal').style.display = 'none';
+        };
+
+        // Adiciona funcionalidade para o botão de post
+        document.getElementById('postButton').onclick = function() {
+            // Lógica para criar uma nova postagem (exibir uma caixa de texto ou algo similar)
+            alert("Criar uma nova postagem");
+        };
+    </script>
 </body>
 </html>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
-
-.container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.banner {
-    position: relative;
-}
-
-.banner-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.edit-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.profile {
-    margin-top: 20px;
-}
-
-.profile-header {
-    display: flex;
-    align-items: center;
-}
-
-.profile-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 2px solid white;
-    margin-right: 20px;
-}
-
-.profile-info {
-    flex-grow: 1;
-}
-
-.stats {
-    margin: 10px 0;
-}
-
-.profile-details {
-    margin-top: 20px;
-}
-
-.info-section {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.footer {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-}
-
-.post-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; 
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
- document.getElementById('editProfile').onclick = function() {
-    document.getElementById('editModal').style.display = 'block';
-};
-
-document.getElementById('closeModal').onclick = function() {
-    document.getElementById('editModal').style.display = 'none';
-};
-
-document.getElementById('saveChanges').onclick = function() {
-    const newNickname = document.getElementById('newNickname').value;
-    const newProfileImage = document.getElementById('newProfileImage').files[0];
-    const newBannerImage = document.getElementById('newBannerImage').files[0];
-    const newTheme = document.getElementById('newTheme').value;
-
-    if (newNickname) {
-        document.getElementById('nickname').innerText = newNickname;
-    }
-    
-    if (newProfileImage) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('profileImage').src = e.target.result;
-        };
-        reader.readAsDataURL(newProfileImage);
-    }
-
-    if (newBannerImage) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.querySelector('.banner-image').src = e.target.result;
-        };
-        reader.readAsDataURL(newBannerImage);
-    }
-
-    document.body.style.backgroundColor = newTheme === 'dark' ? '#333' : '#f0f0f0';
-    
-    document.getElementById('editModal').style.display = 'none';
-};
-
-// Adiciona funcionalidade para o botão de post
-document.getElementById('postButton').onclick = function() {
-    // Lógica para criar uma nova postagem (exibir uma caixa de texto ou algo similar)
-    alert("Criar uma nova postagem");
-};
