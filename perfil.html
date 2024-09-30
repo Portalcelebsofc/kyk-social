@@ -9,47 +9,39 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-color: #e5e5e5;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
         .banner {
             position: relative;
-        }
-
-        .banner-image {
-            width: 100%;
             height: 200px;
+            background-color: #ccc;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-        }
-
-        .edit-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .profile {
-            margin-top: 20px;
+            border-radius: 10px 10px 0 0;
         }
 
         .profile-header {
             display: flex;
             align-items: center;
+            margin-top: -60px; /* Move profile picture above the banner */
+            position: relative;
         }
 
         .profile-image {
@@ -58,30 +50,36 @@
             border-radius: 50%;
             border: 2px solid white;
             margin-right: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
 
         .profile-info {
             flex-grow: 1;
         }
 
+        .profile-info h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .profile-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
         .stats {
             margin: 10px 0;
+            font-size: 14px;
+            color: #888;
         }
 
-        .profile-details {
-            margin-top: 20px;
-        }
-
-        .info-section {
-            background-color: #f9f9f9;
-            padding: 10px;
+        .edit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
             border-radius: 5px;
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+            cursor: pointer;
         }
 
         .post-button {
@@ -92,6 +90,9 @@
             width: 50px;
             height: 50px;
             font-size: 24px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             cursor: pointer;
         }
 
@@ -104,7 +105,6 @@
             width: 100%; 
             height: 100%; 
             overflow: auto; 
-            background-color: rgb(0,0,0); 
             background-color: rgba(0,0,0,0.4); 
         }
 
@@ -135,42 +135,24 @@
     <div class="container">
         <div class="banner" id="banner">
             <img src="banner.jpg" alt="Banner" class="banner-image">
-            <button class="edit-button" id="editBanner">Editar Banner</button>
         </div>
-        <div class="profile">
-            <div class="profile-header">
-                <img src="profile.jpg" alt="Foto de Perfil" class="profile-image" id="profileImage">
-                <div class="profile-info">
-                    <h1 id="nickname">Apelido do Usuário</h1>
-                    <p id="username">@usuario</p>
-                    <div class="stats">
-                        <span id="followersCount">0</span> Seguidores | 
-                        <span id="followingCount">0</span> Seguindo | 
-                        <span id="postsCount">0</span> Postagens
-                    </div>
-                </div>
-                <button class="edit-button" id="editProfile">Editar Perfil</button>
-            </div>
-            <div class="profile-details">
-                <h2>Informações do Perfil</h2>
-                <hr>
-                <div class="info-section">
-                    <p><strong>Seguidores:</strong> <span id="followersCount">149000</span></p>
-                    <p><strong>Seguindo:</strong> <span id="followingCount">500</span></p>
-                    <p><strong>Postagens:</strong> <span id="postsCount">150</span></p>
+        <div class="profile-header">
+            <img src="profile.jpg" alt="Foto de Perfil" class="profile-image" id="profileImage">
+            <div class="profile-info">
+                <h1 id="nickname">Apelido do Usuário</h1>
+                <p id="username">@usuario</p>
+                <div class="stats">
+                    <span id="followersCount">149000</span> Seguidores | 
+                    <span id="followingCount">500</span> Seguindo | 
+                    <span id="postsCount">150</span> Postagens
                 </div>
             </div>
-            <div class="post-options">
-                <h2>Suas Postagens</h2>
-                <hr>
-                <div class="posts">
-                    <!-- Posts do usuário serão exibidos aqui -->
-                </div>
-            </div>
+            <button class="edit-button" id="editProfile">Editar Perfil</button>
         </div>
-        <div class="footer">
-            <button class="post-button" id="postButton">📝</button> <!-- Ícone de lápis -->
-        </div>
+    </div>
+
+    <div class="footer">
+        <button class="post-button" id="postButton">📝</button> <!-- Ícone de lápis -->
     </div>
 
     <div id="editModal" class="modal">
@@ -205,7 +187,6 @@
             const newNickname = document.getElementById('newNickname').value;
             const newProfileImage = document.getElementById('newProfileImage').files[0];
             const newBannerImage = document.getElementById('newBannerImage').files[0];
-            const newTheme = document.getElementById('newTheme').value;
 
             if (newNickname) {
                 document.getElementById('nickname').innerText = newNickname;
@@ -222,19 +203,15 @@
             if (newBannerImage) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.querySelector('.banner-image').src = e.target.result;
+                    document.querySelector('.banner img').src = e.target.result;
                 };
                 reader.readAsDataURL(newBannerImage);
             }
 
-            document.body.style.backgroundColor = newTheme === 'dark' ? '#333' : '#f0f0f0';
-            
             document.getElementById('editModal').style.display = 'none';
         };
 
-        // Adiciona funcionalidade para o botão de post
         document.getElementById('postButton').onclick = function() {
-            // Lógica para criar uma nova postagem (exibir uma caixa de texto ou algo similar)
             alert("Criar uma nova postagem");
         };
     </script>
