@@ -39,46 +39,59 @@
             padding-left: 140px;
             padding-right: 50px;
             display: flex;
-            align-items: center; /* Alinhado verticalmente */
+            align-items: flex-start; /* Alinhado no topo */
         }
 
         .user-info h2 {
             margin: 0;
             font-size: 22px;
-            margin-right: 10px; /* Espaçamento entre apelido e nome de usuário */
+            margin-left: 10px; /* Espaçamento entre imagem e texto */
         }
 
         .user-info p {
             margin: 5px 0;
             color: gray;
+            margin-left: 10px; /* Espaçamento entre imagem e texto */
+        }
+
+        /* Opção "Editar Perfil" */
+        .edit-profile {
+            margin-top: 20px;
+            cursor: pointer;
+            color: #4A90E2;
+            font-weight: bold;
+            position: absolute;
+            top: 160px; /* Abaixo do banner */
+            right: 20px; /* Alinhado à direita */
+        }
+
+        /* Opções de edição */
+        .edit-options {
+            display: none;
+            position: absolute;
+            top: 190px; /* Espaçamento abaixo do "Editar Perfil" */
+            right: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 100; /* Para ficar acima de outros elementos */
+        }
+
+        .edit-options a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .edit-options a:hover {
+            background-color: #f1f1f1;
         }
 
         /* Botão de upload */
         .hidden-input {
             display: none;
-        }
-
-        /* Barra de Navegação Inferior */
-        .navbar {
-            background-color: #4A90E2;
-            padding: 10px;
-            display: flex;
-            justify-content: space-around;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            color: white;
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -86,26 +99,39 @@
 
     <!-- Banner -->
     <div class="banner">
-        <img src="path/to/banner.jpg" id="bannerImage" alt="Banner do Perfil" class="banner-image">
+        <img src="" id="bannerImage" alt="Banner do Perfil" class="banner-image" style="width: 100%; height: 100%; object-fit: cover;">
         <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
     </div>
 
     <!-- Foto de Perfil sobreposta ao banner -->
-    <img src="path/to/profile.jpg" id="profileImage" alt="Foto de Perfil" class="profile-pic">
+    <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic">
     <input type="file" accept="image/*" id="profileImageInput" class="hidden-input" onchange="loadProfileImage(event)">
 
     <!-- Informações do usuário -->
     <div class="user-info">
+        <img src="" id="profileImage" alt="Foto de Perfil" class="profile-pic">
         <h2 id="nickname">Apelido do Usuário</h2>
         <p id="username">@usuario</p>
     </div>
 
-    <!-- Opção Editar Perfil -->
-    <div style="margin-top: 20px; padding-right: 20px; text-align: right;">
-        <button onclick="editProfile()">Editar Perfil</button>
+    <!-- Opção "Editar Perfil" -->
+    <div class="edit-profile" onclick="toggleEditOptions()">Editar Perfil</div>
+
+    <div class="edit-options" id="editOptions">
+        <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
+        <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
+        <a href="#" onclick="editUsername()">Editar Nome de Usuário</a>
+        <a href="#" onclick="editNickname()">Editar Apelido</a>
+        <a href="#" onclick="editBio()">Editar Bio</a>
     </div>
 
     <script>
+        // Função para alternar opções de edição
+        function toggleEditOptions() {
+            const editOptions = document.getElementById('editOptions');
+            editOptions.style.display = editOptions.style.display === 'block' ? 'none' : 'block';
+        }
+
         // Carregar nova foto de perfil
         function loadProfileImage(event) {
             const profileImage = document.getElementById('profileImage');
@@ -118,48 +144,31 @@
             bannerImage.src = URL.createObjectURL(event.target.files[0]);
         }
 
-        // Função para editar perfil
-        function editProfile() {
-            const option = prompt("Escolha uma opção:\n1. Editar Nome de Usuário\n2. Editar Apelido\n3. Editar Bio\n4. Trocar Foto de Perfil\n5. Trocar Banner");
-            switch (option) {
-                case '1':
-                    const newUsername = prompt("Digite o novo nome de usuário:");
-                    if (newUsername) {
-                        document.getElementById('username').innerText = newUsername;
-                    }
-                    break;
-                case '2':
-                    const newNickname = prompt("Digite o novo apelido:");
-                    if (newNickname) {
-                        document.getElementById('nickname').innerText = newNickname;
-                    }
-                    break;
-                case '3':
-                    const newBio = prompt("Digite a nova bio:");
-                    if (newBio) {
-                        // Você pode adicionar um elemento para exibir a bio no futuro
-                        alert("Bio atualizada: " + newBio);
-                    }
-                    break;
-                case '4':
-                    document.getElementById('profileImageInput').click();
-                    break;
-                case '5':
-                    document.getElementById('bannerInput').click();
-                    break;
-                default:
-                    alert("Opção inválida!");
+        // Editar Nome de Usuário
+        function editUsername() {
+            const newUsername = prompt("Digite o novo nome de usuário:");
+            if (newUsername) {
+                document.getElementById('username').innerText = newUsername;
+            }
+        }
+
+        // Editar Apelido
+        function editNickname() {
+            const newNickname = prompt("Digite o novo apelido:");
+            if (newNickname) {
+                document.getElementById('nickname').innerText = newNickname;
+            }
+        }
+
+        // Editar Bio
+        function editBio() {
+            const newBio = prompt("Digite a nova bio:");
+            if (newBio) {
+                alert("Bio atualizada: " + newBio);
+                // Para exibir a bio, você pode adicionar um novo elemento na interface
             }
         }
     </script>
-
-    <!-- Barra de Navegação Inferior -->
-    <div class="navbar">
-        <a href="home.html">Início</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="configuracoes.html">Configurações</a>
-        <a href="sair.html">Sair</a>
-    </div>
 
 </body>
 </html>
