@@ -38,19 +38,24 @@
             margin-top: 40px;
             padding-left: 140px;
             display: flex;
-            align-items: center; /* Centraliza verticalmente */
+            flex-direction: column;
         }
 
         .user-info h2 {
             margin: 0;
             font-size: 22px;
-            margin-left: 10px; /* Espaçamento entre imagem e texto */
         }
 
         .user-info p {
             margin: 5px 0;
             color: gray;
-            margin-left: 10px; /* Espaçamento entre imagem e texto */
+        }
+
+        /* Bio */
+        .bio {
+            color: #666;
+            margin-top: 10px;
+            font-size: 14px;
         }
 
         /* Opção "Editar Perfil" */
@@ -93,6 +98,14 @@
             display: none;
         }
 
+        /* Sol e Lua */
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
+        }
     </style>
 </head>
 <body>
@@ -101,6 +114,7 @@
     <div class="banner">
         <img src="" id="bannerImage" alt="Banner do Perfil" class="banner-image" style="width: 100%; height: 100%; object-fit: cover;">
         <input type="file" accept="image/*" id="bannerInput" class="hidden-input" onchange="loadBannerImage(event)">
+        <span class="theme-toggle" id="themeToggle">🌞</span> <!-- Sol/Lua -->
     </div>
 
     <!-- Foto de Perfil sobreposta ao banner -->
@@ -109,10 +123,9 @@
 
     <!-- Informações do usuário -->
     <div class="user-info">
-        <div>
-            <h2 id="nickname">Apelido do Usuário</h2>
-            <p id="username">@usuario</p>
-        </div>
+        <h2 id="nickname">Apelido do Usuário</h2>
+        <p id="username">@usuario</p>
+        <p class="bio" id="bioText">Aqui está a bio do usuário.</p> <!-- Exibição da bio -->
     </div>
 
     <!-- Opção "Editar Perfil" -->
@@ -135,7 +148,12 @@
                 document.getElementById('bannerImage').src = storedUser.bannerImage || '';
                 document.getElementById('nickname').textContent = storedUser.nickname || 'Apelido do Usuário';
                 document.getElementById('username').textContent = storedUser.username || '@usuario';
+                document.getElementById('bioText').textContent = storedUser.bio || 'Aqui está a bio do usuário.';
             }
+
+            // Carregar tema
+            const theme = localStorage.getItem('theme') || 'default';
+            setTheme(theme);
         }
 
         // Função para salvar dados no Local Storage
@@ -144,7 +162,8 @@
                 nickname: document.getElementById('nickname').textContent,
                 username: document.getElementById('username').textContent,
                 profileImage: document.getElementById('profileImage').src,
-                bannerImage: document.getElementById('bannerImage').src
+                bannerImage: document.getElementById('bannerImage').src,
+                bio: document.getElementById('bioText').textContent
             };
             localStorage.setItem('user', JSON.stringify(user));
         }
@@ -187,18 +206,34 @@
             }
         }
 
-        // Editar bio (para simplificação, vamos deixar a bio em um prompt de alerta)
+        // Editar bio
         function editBio() {
-            const newBio = prompt("Digite a nova bio:", "Aqui está a bio do usuário."); // O valor padrão pode ser mudado conforme a necessidade
+            const newBio = prompt("Digite a nova bio:", document.getElementById('bioText').textContent);
             if (newBio) {
-                alert("Bio atualizada para: " + newBio);
-                // Você pode adicionar um elemento para exibir a bio, se necessário
+                document.getElementById('bioText').textContent = newBio;
+                saveUserData(); // Salva a nova bio
             }
         }
 
-        // Carregar dados do usuário ao iniciar a página
-        window.onload = loadUserData;
-    </script>
+        // Trocar e salvar o tema
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.body.style.backgroundColor = '#333';
+                document.body.style.color = '#fff';
+            } else if (theme === 'cyan') {
+                document.body.style.backgroundColor = '#00bcd4';
+                document.body.style.color = '#fff';
+            } else {
+                document.body.style.backgroundColor = '#fff';
+                document.body.style.color = '#000';
+            }
+            localStorage.setItem('theme', theme);
+        }
 
-</body>
-</html>
+        // Função para alternar tema ao clicar no sol/lua
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            const currentTheme = localStorage.getItem('theme') || 'default';
+            let newTheme = 'default';
+            let icon = '🌞';
+            
+            if (currentTheme === '
