@@ -55,16 +55,18 @@
 
         .profile-info {
             flex-grow: 1;
+            margin-top: 20px; /* Espaçamento entre o cabeçalho do perfil e a seção do perfil */
         }
 
         .profile-info h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 20px; /* Tamanho menor para caber no layout */
         }
 
         .profile-info p {
             margin: 5px 0;
             color: #555;
+            font-size: 16px; /* Tamanho menor para caber no layout */
         }
 
         .stats {
@@ -129,6 +131,11 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        .separator {
+            border-top: 1px solid #ccc;
+            margin: 20px 0; /* Espaçamento acima e abaixo da linha */
+        }
     </style>
 </head>
 <body>
@@ -149,6 +156,7 @@
             </div>
             <button class="edit-button" id="editProfile">Editar Perfil</button>
         </div>
+        <div class="separator"></div> <!-- Linha de separação -->
     </div>
 
     <div class="footer">
@@ -165,6 +173,8 @@
             <input type="file" id="newBannerImage" accept="image/*"><br>
             <label for="newNickname">Apelido:</label>
             <input type="text" id="newNickname"><br>
+            <label for="newUsername">Arroba:</label> <!-- Campo para editar o arroba -->
+            <input type="text" id="newUsername"><br>
             <label for="newTheme">Tema:</label>
             <select id="newTheme">
                 <option value="light">Claro</option>
@@ -185,11 +195,16 @@
 
         document.getElementById('saveChanges').onclick = function() {
             const newNickname = document.getElementById('newNickname').value;
+            const newUsername = document.getElementById('newUsername').value; // Novo campo para o arroba
             const newProfileImage = document.getElementById('newProfileImage').files[0];
             const newBannerImage = document.getElementById('newBannerImage').files[0];
 
             if (newNickname) {
                 document.getElementById('nickname').innerText = newNickname;
+            }
+
+            if (newUsername) {
+                document.getElementById('username').innerText = newUsername;
             }
             
             if (newProfileImage) {
