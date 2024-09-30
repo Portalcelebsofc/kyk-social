@@ -132,9 +132,9 @@
     <!-- Informações do usuário -->
     <div class="user-info">
         <div class="user-details">
-            <h2 id="nickname">Seu Apelido?</h2>
+            <h2 id="nickname">Seu Apelido</h2>
             <p id="username">@usuario</p>
-            <p class="user-bio" id="bio">Sua Bio</p>
+            <p class="user-bio" id="bio">Adicione a Bio</p>
         </div>
     </div>
 
@@ -247,4 +247,8 @@
             if (savedUsername) {
                 document.getElementById('username').textContent = '@' + savedUsername;
             }
-            if (savedNickname)
+            if (savedNickname) {
+                document.getElementById('nickname').textContent = savedNickname;
+            }
+            if (savedBio) {
+                document.getElement
