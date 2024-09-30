@@ -37,9 +37,8 @@
         .user-info {
             margin-top: 40px;
             padding-left: 140px;
-            padding-right: 50px;
             display: flex;
-            align-items: flex-start; /* Alinhado no topo */
+            align-items: center; /* Centraliza verticalmente */
         }
 
         .user-info h2 {
@@ -94,42 +93,6 @@
             display: none;
         }
 
-        /* Estilos para modal de edição */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -146,8 +109,10 @@
 
     <!-- Informações do usuário -->
     <div class="user-info">
-        <h2 id="nickname">Apelido do Usuário</h2>
-        <p id="username">@usuario</p>
+        <div>
+            <h2 id="nickname">Apelido do Usuário</h2>
+            <p id="username">@usuario</p>
+        </div>
     </div>
 
     <!-- Opção "Editar Perfil" -->
@@ -156,22 +121,34 @@
     <div class="edit-options" id="editOptions">
         <a href="#" onclick="document.getElementById('profileImageInput').click()">Trocar Foto de Perfil</a>
         <a href="#" onclick="document.getElementById('bannerInput').click()">Trocar Banner</a>
-        <a href="#" onclick="openEditModal('username')">Editar Nome de Usuário</a>
-        <a href="#" onclick="openEditModal('nickname')">Editar Apelido</a>
-        <a href="#" onclick="openEditModal('bio')">Editar Bio</a>
-    </div>
-
-    <!-- Modal para edição -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
-            <label id="modalLabel"></label>
-            <input type="text" id="editInput">
-            <button onclick="saveChanges()">Salvar</button>
-        </div>
+        <a href="#" onclick="editUsername()">Editar Nome de Usuário</a>
+        <a href="#" onclick="editNickname()">Editar Apelido</a>
+        <a href="#" onclick="editBio()">Editar Bio</a>
     </div>
 
     <script>
+        // Função para carregar dados do Local Storage
+        function loadUserData() {
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+            if (storedUser) {
+                document.getElementById('profileImage').src = storedUser.profileImage || '';
+                document.getElementById('bannerImage').src = storedUser.bannerImage || '';
+                document.getElementById('nickname').textContent = storedUser.nickname || 'Apelido do Usuário';
+                document.getElementById('username').textContent = storedUser.username || '@usuario';
+            }
+        }
+
+        // Função para salvar dados no Local Storage
+        function saveUserData() {
+            const user = {
+                nickname: document.getElementById('nickname').textContent,
+                username: document.getElementById('username').textContent,
+                profileImage: document.getElementById('profileImage').src,
+                bannerImage: document.getElementById('bannerImage').src
+            };
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+
         // Função para alternar opções de edição
         function toggleEditOptions() {
             const editOptions = document.getElementById('editOptions');
@@ -182,47 +159,45 @@
         function loadProfileImage(event) {
             const profileImage = document.getElementById('profileImage');
             profileImage.src = URL.createObjectURL(event.target.files[0]);
+            saveUserData(); // Salva a imagem
         }
 
         // Carregar novo banner
         function loadBannerImage(event) {
             const bannerImage = document.getElementById('bannerImage');
             bannerImage.src = URL.createObjectURL(event.target.files[0]);
+            saveUserData(); // Salva a imagem
         }
 
-        // Abrir modal para editar informações
-        function openEditModal(field) {
-            const modal = document.getElementById('editModal');
-            const modalLabel = document.getElementById('modalLabel');
-            const editInput = document.getElementById('editInput');
-
-            modal.style.display = "block";
-            modalLabel.textContent = `Editar ${field.charAt(0).toUpperCase() + field.slice(1)}`;
-            editInput.value = document.getElementById(field).textContent;
-            editInput.setAttribute('data-field', field);
-        }
-
-        // Fechar modal
-        function closeEditModal() {
-            const modal = document.getElementById('editModal');
-            modal.style.display = "none";
-        }
-
-        // Salvar alterações
-        function saveChanges() {
-            const editInput = document.getElementById('editInput');
-            const field = editInput.getAttribute('data-field');
-            document.getElementById(field).textContent = editInput.value;
-            closeEditModal();
-        }
-
-        // Fechar modal ao clicar fora
-        window.onclick = function(event) {
-            const modal = document.getElementById('editModal');
-            if (event.target == modal) {
-                closeEditModal();
+        // Editar nome de usuário
+        function editUsername() {
+            const newUsername = prompt("Digite o novo nome de usuário:", document.getElementById('username').textContent);
+            if (newUsername) {
+                document.getElementById('username').textContent = newUsername;
+                saveUserData(); // Salva o novo nome
             }
         }
+
+        // Editar apelido
+        function editNickname() {
+            const newNickname = prompt("Digite o novo apelido:", document.getElementById('nickname').textContent);
+            if (newNickname) {
+                document.getElementById('nickname').textContent = newNickname;
+                saveUserData(); // Salva o novo apelido
+            }
+        }
+
+        // Editar bio (para simplificação, vamos deixar a bio em um prompt de alerta)
+        function editBio() {
+            const newBio = prompt("Digite a nova bio:", "Aqui está a bio do usuário."); // O valor padrão pode ser mudado conforme a necessidade
+            if (newBio) {
+                alert("Bio atualizada para: " + newBio);
+                // Você pode adicionar um elemento para exibir a bio, se necessário
+            }
+        }
+
+        // Carregar dados do usuário ao iniciar a página
+        window.onload = loadUserData;
     </script>
 
 </body>
