@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .profile-banner {
@@ -38,28 +39,33 @@
             margin-top: -50px;
         }
 
+        .username-handle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
         .username {
             font-size: 20px;
             font-weight: bold;
-            display: inline-block;
             margin-right: 10px;
         }
 
         .user-handle {
             font-size: 16px;
             color: gray;
-            display: inline-block;
         }
 
         .bio {
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 14px;
             color: #555;
         }
 
         .edit-profile {
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 20px;
             padding: 10px 20px;
             background-color: #007bff;
             color: white;
@@ -84,194 +90,10 @@
     <!-- Profile Section -->
     <div class="profile-container">
         <img src="https://via.placeholder.com/100" alt="Foto de perfil" class="profile-pic" id="profile-pic">
-        <div class="username" id="username">Nome do Usuário</div>
-        <div class="user-handle" id="user-handle">@username</div>
-        <div class="bio" id="bio">Esta é a bio do usuário.</div>
-        <div class="edit-profile" id="edit-profile">Editar Perfil</div>
-    </div>
-
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" id="theme-toggle">☀️</div>
-
-    <script>
-        // Função para salvar no localStorage
-        function saveToLocalStorage(key, value) {
-            localStorage.setItem(key, value);
-        }
-
-        function loadFromLocalStorage(key, defaultValue) {
-            return localStorage.getItem(key) || defaultValue;
-        }
-
-        // Carregar perfil e tema do localStorage
-        window.onload = function () {
-            document.getElementById('profile-pic').src = loadFromLocalStorage('profilePic', 'https://via.placeholder.com/100');
-            document.getElementById('username').innerText = loadFromLocalStorage('username', 'Nome do Usuário');
-            document.getElementById('user-handle').innerText = loadFromLocalStorage('userHandle', '@username');
-            document.getElementById('bio').innerText = loadFromLocalStorage('bio', 'Esta é a bio do usuário.');
-            document.getElementById('banner').style.backgroundImage = `url(${loadFromLocalStorage('banner', 'https://via.placeholder.com/600x200')})`;
-
-            const theme = loadFromLocalStorage('theme', 'light');
-            setTheme(theme);
-        };
-
-        // Editar perfil
-        document.getElementById('edit-profile').addEventListener('click', function () {
-            const newUsername = prompt('Digite o novo nome de usuário:', document.getElementById('username').innerText);
-            const newHandle = prompt('Digite o novo arroba de usuário:', document.getElementById('user-handle').innerText);
-            const newBio = prompt('Digite a nova bio:', document.getElementById('bio').innerText);
-            const newProfilePic = prompt('Digite a URL da nova foto de perfil:', document.getElementById('profile-pic').src);
-            const newBanner = prompt('Digite a URL do novo banner:', loadFromLocalStorage('banner', 'https://via.placeholder.com/600x200'));
-
-            if (newUsername) {
-                document.getElementById('username').innerText = newUsername;
-                saveToLocalStorage('username', newUsername);
-            }
-
-            if (newHandle) {
-                document.getElementById('user-handle').innerText = newHandle;
-                saveToLocalStorage('userHandle', newHandle);
-            }
-
-            if (newBio) {
-                document.getElementById('bio').innerText = newBio;
-                saveToLocalStorage('bio', newBio);
-            }
-
-            if (newProfilePic) {
-                document.getElementById('profile-pic').src = newProfilePic;
-                saveToLocalStorage('profilePic', newProfilePic);
-            }
-
-            if (newBanner) {
-                document.getElementById('banner').style.backgroundImage = `url(${newBanner})`;
-                saveToLocalStorage('banner', newBanner);
-            }
-        });
-
-        // Alterar tema
-        document.getElementById('theme-toggle').addEventListener('click', function () {
-            const currentTheme = loadFromLocalStorage('theme', 'light');
-
-            let newTheme;
-            if (currentTheme === 'light') {
-                newTheme = 'dark';
-                document.getElementById('theme-toggle').innerText = '🌙';
-            } else if (currentTheme === 'dark') {
-                newTheme = 'cyan';
-                document.getElementById('theme-toggle').innerText = '💧';
-            } else {
-                newTheme = 'light';
-                document.getElementById('theme-toggle').innerText = '☀️';
-            }
-
-            setTheme(newTheme);
-            saveToLocalStorage('theme', newTheme);
-        });
-
-        // Função para aplicar o tema
-        function setTheme(theme) {
-            if (theme === 'light') {
-                document.body.style.backgroundColor = 'white';
-                document.body.style.color = 'black';
-            } else if (theme === 'dark') {
-                document.body.style.backgroundColor = '#333';
-                document.body.style.color = 'white';
-            } else if (theme === 'cyan') {
-                document.body.style.backgroundColor = '#00bcd4';
-                document.body.style.color = 'black';
-            }
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .profile-banner {
-            width: 100%;
-            height: 200px;
-            background-color: #ddd;
-            position: relative;
-        }
-
-        .profile-container {
-            position: relative;
-            max-width: 600px;
-            margin: -50px auto 0;
-            padding: 20px;
-            background-color: white;
-            text-align: center;
-            border-radius: 10px;
-        }
-
-        .profile-pic {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid white;
-            margin-top: -50px;
-        }
-
-        .username {
-            font-size: 20px;
-            font-weight: bold;
-            display: inline-block;
-            margin-right: 10px;
-        }
-
-        .user-handle {
-            font-size: 16px;
-            color: gray;
-            display: inline-block;
-        }
-
-        .bio {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .edit-profile {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 24px;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Banner -->
-    <div class="profile-banner" id="banner"></div>
-
-    <!-- Profile Section -->
-    <div class="profile-container">
-        <img src="https://via.placeholder.com/100" alt="Foto de perfil" class="profile-pic" id="profile-pic">
-        <div class="username" id="username">Nome do Usuário</div>
-        <div class="user-handle" id="user-handle">@username</div>
+        <div class="username-handle">
+            <div class="username" id="username">Nome do Usuário</div>
+            <div class="user-handle" id="user-handle">@username</div>
+        </div>
         <div class="bio" id="bio">Esta é a bio do usuário.</div>
         <div class="edit-profile" id="edit-profile">Editar Perfil</div>
     </div>
