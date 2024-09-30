@@ -122,6 +122,41 @@
             margin-top: 20px;
             text-align: right;
         }
+
+        /* Container para o formulário de edição */
+        .edit-container {
+            display: none; /* Inicialmente escondido */
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        /* Estilo dos inputs */
+        .edit-container input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .edit-container label {
+            margin-top: 10px;
+            display: block;
+            font-weight: bold;
+        }
+
+        /* Tema */
+        .theme-selection {
+            margin: 10px 0;
+        }
+
+        .theme-selection label {
+            display: inline;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -149,8 +184,8 @@
 
         <!-- Estatísticas -->
         <div class="stats">
-            <div><span id="followersCount">0</span> Seguidores</div>
-            <div><span id="followingCount">0</span> Seguindo</div>
+            <div><span id="followersCount">132200</span> Seguidores</div>
+            <div><span id="followingCount">12</span> Seguindo</div>
             <div><span id="postsCount">0</span> Postagens</div>
         </div>
 
@@ -167,6 +202,26 @@
 
         <!-- Botão de editar perfil -->
         <div class="edit-profile" onclick="toggleEditOptions()">Editar Perfil</div>
+
+        <!-- Formulário de edição -->
+        <div class="edit-container" id="editContainer">
+            <label for="editNickname">Apelido:</label>
+            <input type="text" id="editNickname" placeholder="Novo Apelido">
+
+            <label for="editUsername">Arroba:</label>
+            <input type="text" id="editUsername" placeholder="Novo @usuario">
+
+            <label for="editBio">Bio:</label>
+            <input type="text" id="editBio" placeholder="Nova bio">
+
+            <label for="themeSelect">Escolha o tema:</label>
+            <div class="theme-selection">
+                <label><input type="radio" name="theme" value="light" checked> Branco</label>
+                <label><input type="radio" name="theme" value="dark"> Preto</label>
+            </div>
+
+            <button onclick="saveProfile()">Salvar</button>
+        </div>
     </div>
 
     <script>
@@ -201,13 +256,13 @@
 
         // Alternar opções de edição
         function toggleEditOptions() {
-            alert("Opções de edição não implementadas ainda.");
+            const editContainer = document.getElementById('editContainer');
+            editContainer.style.display = editContainer.style.display === 'none' || editContainer.style.display === '' ? 'block' : 'none';
         }
 
-        // Função para carregar dados do Local Storage (caso precise)
-        function loadUserData() {
-            // Aqui você pode implementar a lógica para carregar dados do usuário.
-        }
-    </script>
-</body>
-</html>
+        // Função para salvar perfil
+        function saveProfile() {
+            const nickname = document.getElementById('editNickname').value;
+            const username = document.getElementById('editUsername').value;
+            const bio = document.getElementById('editBio').value;
+            const theme = document.query
