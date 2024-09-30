@@ -39,6 +39,7 @@
             padding-left: 140px;
             display: flex;
             align-items: center; /* Centraliza verticalmente */
+            flex-direction: column; /* Alinha verticalmente */
         }
 
         .user-info h2 {
@@ -104,17 +105,14 @@
             background-color: #f1f1f1;
         }
 
-        /* Botão de upload */
-        .hidden-input {
-            display: none;
-        }
-
         /* Funções abaixo da bio */
         .functions {
             margin-top: 20px;
             padding-left: 140px;
             display: flex;
+            justify-content: space-around; /* Centraliza horizontalmente */
             gap: 20px; /* Espaçamento entre as funções */
+            flex-wrap: wrap; /* Faz com que as funções se ajustem na tela */
         }
 
         .function {
@@ -123,6 +121,17 @@
             border-radius: 5px;
             text-align: center;
             cursor: pointer;
+            flex: 1 0 150px; /* Faz com que cada função ocupe pelo menos 150px */
+            margin: 5px; /* Espaçamento entre as funções */
+        }
+
+        /* Linha de separação */
+        .separator {
+            margin: 20px 0;
+            border-top: 1px solid #ddd;
+            width: 80%; /* Ajuste a largura da linha de separação */
+            margin-left: auto;
+            margin-right: auto; /* Centraliza a linha */
         }
     </style>
 </head>
@@ -155,6 +164,9 @@
         <div><strong id="followingCount">0</strong> Seguindo</div>
         <div><strong id="postsCount">0</strong> Postagens</div>
     </div>
+
+    <!-- Linha de separação -->
+    <div class="separator"></div>
 
     <!-- Opção "Editar Perfil" -->
     <div class="edit-profile" onclick="toggleEditOptions()">Editar Perfil</div>
@@ -214,27 +226,3 @@
 
         // Carregar nova foto de perfil
         function loadProfileImage(event) {
-            const profileImage = document.getElementById('profileImage');
-            profileImage.src = URL.createObjectURL(event.target.files[0]);
-            saveUserData(); // Salva a imagem
-        }
-
-        // Carregar novo banner
-        function loadBannerImage(event) {
-            const bannerImage = document.getElementById('bannerImage');
-            bannerImage.src = URL.createObjectURL(event.target.files[0]);
-            saveUserData(); // Salva a imagem
-        }
-
-        // Editar nome de usuário
-        function editUsername() {
-            const newUsername = prompt("Digite o novo nome de usuário:", document.getElementById('username').textContent);
-            if (newUsername) {
-                document.getElementById('username').textContent = newUsername;
-                saveUserData(); // Salva o novo nome
-            }
-        }
-
-        // Editar apelido
-        function editNickname() {
-            const newNickname = prompt("
